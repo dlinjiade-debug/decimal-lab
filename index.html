@@ -7,7 +7,7 @@
 <meta name="description" content="小数点实验室 · 3D 数学工坊：用 3D 实验台学懂小数乘法、小数除法、简易方程">
 <title>小数点实验室 · 3D 数学工坊</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/lab.css?v=15">
+<link rel="stylesheet" href="css/lab.css?v=16">
 </head>
 <body class="ch-home">
 <header id="labTop"></header>
@@ -75,7 +75,7 @@
   </form>
 </dialog>
 
-<script defer src="js/lab-core.js?v=15"></script>
+<script defer src="js/lab-core.js?v=16"></script>
 <!-- lib/model-viewer.min.js（930KB）改为页面空闲时再加载，见下方脚本 -->
 <script>
 /* defer 之后才执行：等 Lab 就绪 */
@@ -140,14 +140,15 @@ document.addEventListener("DOMContentLoaded", function () {
     mv.style.inset = "0";
     mv.style.visibility = "hidden";
 
-    // 3D 就绪后再撤掉封面图：切换时不闪、也不会先黑一下
+    // 只有「模型真的就绪」才撤掉封面图。
+    // 不要用定时器兜底：网速慢时定时器会抢先撤图，而 3D 还没渲染出来，页面就空了。
+    // 封面图本身就是同一张吉祥物，留着它比留一块空白好。
     function reveal() {
       var cover = slot.querySelector(".mv-cover");
       if (cover) cover.remove();
       mv.style.visibility = "";
     }
     mv.addEventListener("load", reveal);
-    setTimeout(reveal, 3500);          // 兜底：万一 load 事件没来
 
     // 模型或 WebGL 出问题 → 保留封面图，不留空白
     mv.addEventListener("error", function () {
