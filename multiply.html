@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0ea5e9">
+<meta name="description" content="小数乘法 · 3D 面积积木台：看清积的小数位数为什么等于因数小数位数的和">
+<title>模块 01 · 小数乘法｜3D 面积积木台</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/lab.css?v=15">
+</head>
+<body class="ch-multiply">
+<header id="labTop"></header>
+
+<div class="board-shell">
+  <aside class="case-rail" id="labRail" aria-label="案例导航"></aside>
+
+  <main class="board-main">
+    <h1 class="sr-only">小数乘法 · 3D 面积积木台（人教版五年级上册 第 1 单元）</h1>
+    <!-- ================= 01 3D 实验台 ================= -->
+    <section id="s-lab" style="scroll-margin-top:96px">
+      <div class="stage-card">
+        <div class="stage-grid-bg"></div>
+        <div class="stage-top">
+          <span class="stage-title"><span class="badge3d">3D</span>面积积木台 · 0.3 × 0.2 到底在哪</span>
+          <span class="stage-hint">整块 = 1，每格 0.01 · 拖动旋转</span>
+        </div>
+        <div class="stage-canvas-wrap">
+          <canvas class="stage-3d" id="areaCanvas" role="img" aria-label="3D 面积模型：整块底板分成 10 乘 10 共 100 格，每格 0.01；青色竖条与粉色横条交叉的格子就是积" aria-describedby="areaEq"></canvas>
+          <div class="stage-readout">
+            <div class="eq" id="areaEq" aria-live="polite">0.3 × 0.2 = <em>0.06</em></div>
+            <div class="frac" id="areaFrac">3/10 × 2/10 = 6/100　→　6 格</div>
+          </div>
+        </div>
+        <div class="stage-controls">
+          <div class="slider-row">
+            <span>宽 <b id="aLabel">0.3</b></span>
+            <input type="range" id="rangeA" min="1" max="9" step="1" value="3" aria-label="宽">
+          </div>
+          <div class="slider-row">
+            <span>高 <b id="bLabel">0.2</b></span>
+            <input type="range" id="rangeB" min="1" max="9" step="1" value="2" aria-label="高">
+          </div>
+          <button type="button" class="btn ghost" id="areaSpin">自动旋转：关</button>
+          <button type="button" class="btn ghost" id="areaReset">回到 0.3 × 0.2</button>
+        </div>
+      </div>
+    </section>
+
+    </div>
+
+    <!-- ================= 02 算理揭秘（精简版） ================= -->
+    <section id="s-why" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>为什么积的小数位数 = 因数小数位数之和</h2>
+        </div>
+
+        <div class="grid2">
+          <div class="note tone" style="margin:0">
+            <h4>① 用分数看</h4>
+            <div class="lead"><code class="f">0.3 × 0.2 = (3×2) / (10×10) = 6/100 = 0.06</code><br>两个分母各带 1 个 10 → 结果是<b>两位小数</b>。</div>
+          </div>
+          <div class="note tone" style="margin:0">
+            <h4>② 先放大成整数，最后缩回去</h4>
+            <div class="lead"><code class="f">2.35 × 1.5 → 235 × 15 = 3525</code><br>放大了 1000 倍，就缩回 1000 倍 → <b class="hl">3.525</b>。</div>
+          </div>
+        </div>
+
+        <div class="cmp" style="margin-top:12px">
+          <div class="bad"><h5>❌ 照着因数对齐小数点</h5><code class="f">2.35 × 1.5 = 35.25</code></div>
+          <div class="good"><h5>✅ 数位数，从右往左点</h5><code class="f">3525 → 3.525</code></div>
+        </div>
+
+        <div class="cmp" style="margin-top:10px">
+          <div class="bad"><h5>❌ 位数不够忘了补 0</h5><code class="f">0.72 × 0.06 = 0.432</code></div>
+          <div class="good"><h5>✅ 前面补 0 占位</h5><code class="f">432 → 0432 → 0.0432</code></div>
+        </div>
+
+        <div class="cmp" style="margin-top:10px">
+          <div class="bad"><h5>❌ 先去末尾 0 再点小数点</h5><code class="f">1000 → 1</code></div>
+          <div class="good"><h5>✅ 先点小数点，再去末尾 0</h5><code class="f">1.000 → 1.0 → 1</code></div>
+        </div>
+
+        <div class="grid2" style="margin-top:12px">
+          <div class="note key" style="margin:0">
+            <h4>🔍 3 秒检查：积和因数比大小</h4>
+            <div class="lead">乘比 1 大的数 → 积变大　<code class="f">3.5 × 1.2 &gt; 3.5</code><br>乘比 1 小的数 → 积变小　<code class="f">3.5 × 0.98 &lt; 3.5</code></div>
+          </div>
+          <div class="note key" style="margin:0">
+            <h4>📏 积的近似数</h4>
+            <div class="lead">不需要精确值时，按要保留的位数对下一位<b>四舍五入</b>，用「<b>≈</b>」连接。<br><code class="f">0.8 × 0.9 = 0.72 ≈ 0.7</code>　保留一位小数，看第二位 2 &lt; 5 舍去。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= 03 · 3D 铅笔板书 ================= -->
+    <section id="s-teach" style="scroll-margin-top:96px">
+      <div class="stage-card">
+        <div class="stage-grid-bg"></div>
+        <div class="stage-top">
+          <span class="stage-title"><span class="badge3d">3D</span>铅笔板书 · 小助手一笔一划写给你看</span>
+          <span class="stage-hint">拖动换视角 · 双指或滚轮缩放</span>
+        </div>
+        <div class="stage-canvas-wrap">
+          <canvas class="stage-3d tall" id="writeCanvas" role="img" aria-label="3D 铅笔板书：小助手手持铅笔，把竖式一笔一划写到黑板上，写到哪字幕就讲到哪" aria-describedby="wCaption"></canvas>
+          <div class="stage-caption"><div class="cap-in" id="wCaption">选下面一个例题，小助手马上开始写。</div></div>
+        </div>
+        <div class="stage-controls">
+          <button type="button" class="btn primary" id="wPlay">▶ 自动讲解</button>
+          <button type="button" class="btn ghost" id="wPrev">← 上一句</button>
+          <button type="button" class="btn ghost" id="wNext">下一句 →</button>
+          <button type="button" class="btn ghost" id="wReplay">重播本句</button>
+          <span class="wstep" id="wStepNo">第 1 / 1 步</span>
+          <label class="slider-row" style="margin-left:auto">写字速度 <b id="wSpeedLabel">1.0×</b>
+            <input type="range" id="wSpeed" min="40" max="220" step="10" value="100" aria-label="写字速度">
+          </label>
+        </div>
+        <div class="stage-picks" id="wDemoBtns"></div>
+      </div>
+
+      <div class="panel" id="wFallback" hidden></div>
+    </section>
+
+    <!-- ================= 04 亲手练 ================= -->
+    <section id="s-practice" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>给积点上小数点</h2>
+            <div class="sub">按整数乘出积，再自己决定小数点放哪儿。</div>
+          </div>
+        </div>
+        <div class="qbar">
+          <span class="pill">第 <b id="pIdx">1</b> / <b id="pTotal">10</b> 题</span>
+          <span class="pill">已答对 <b id="pScore">0</b> 题</span>
+        </div>
+        <div class="qtext" id="pQ">—</div>
+        <div class="vstage" style="min-height:auto">
+          <div style="font-size:15px;color:var(--ink-2)">
+            按整数乘出的积是 <b id="pInt" style="font-family:var(--font-num);font-size:19px">—</b>，
+            两个因数一共有 <b id="pDec" style="font-family:var(--font-num);font-size:19px">—</b> 位小数。
+          </div>
+          <div style="font-size:14px;color:var(--ink-2)">👇 点击要插入小数点的位置（最左边的槽 = 先补 0 再点）</div>
+          <div class="dotrow" id="pRow"></div>
+          <div class="fb" id="pFb" role="status" aria-live="polite"></div>
+          <div>
+            <button type="button" class="btn primary" id="pNext" style="display:none">下一题 →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 05 闯关 ================= -->
+    <section id="s-game" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>小数点搬运工</h2>
+                      </div>
+        </div>
+        <div id="quizMount"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="clue-card" id="labClue" aria-label="当前线索"></aside>
+</div>
+
+<footer class="op-bar" id="labBar"></footer>
+
+<footer class="lab-foot">
+  <span>人教版五年级上册 · 第 1 单元 小数乘法</span>
+  <a href="divide.html">下一章：小数除法 →</a>
+</footer>
+
+<dialog class="dialog" id="labSettingsDialog">
+  <form method="dialog">
+    <div class="in">
+      <h3>实验室设置</h3>
+      <label class="switch-row">
+        <span>减少动画<small>关闭 3D 场景里的缓动与旋转过渡</small></span>
+        <input type="checkbox" id="setReduceMotion">
+      </label>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end">
+        <button type="button" class="btn" id="setReset">重置全部进度</button>
+        <button value="close" class="btn primary">关闭</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script defer src="lib/three.min.js"></script>
+<script defer src="lib/OrbitControls.js"></script>
+<script defer src="lib/handwrite.js"></script>
+<script defer src="lib/vertical-calc.js"></script>
+<script defer src="js/lab-core.js?v=15"></script>
+<script defer src="js/lab-3d.js?v=15"></script>
+<script defer src="js/lab-teach.js?v=15"></script>
+<script defer src="js/multiply.js?v=15"></script>
+</body>
+</html>

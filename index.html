@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+<meta name="description" content="小数点实验室 · 3D 数学工坊：用 3D 实验台学懂小数乘法、小数除法、简易方程">
+<title>小数点实验室 · 3D 数学工坊</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/lab.css?v=15">
+</head>
+<body class="ch-home">
+<header id="labTop"></header>
+
+<main class="home-wrap">
+
+  <!-- ============ 首屏 ============ -->
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="kicker">GRADE 5 · 3D MATH LAB</span>
+      <h1>把小数点<br>搬进 3D 实验室</h1>
+      <p>把「为什么」交给四台能上手拨动的 3D 场景 —— 面积积木看小数点该点在哪，双轨搬运看小数除法怎么变整数除法，3D 天平看方程两边为什么必须一起动。</p>
+      <div class="hero-tags">
+        <span>🧊 3D 面积积木台</span>
+        <span>🔀 3D 同步搬运轨道</span>
+        <span>⚖️ 3D 天平</span>
+        <span>✏️ 3D 铅笔板书</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="stage-grid-bg"></div>
+      <div class="mv-slot" id="mvSlot"></div>
+      <div class="mv-cap">
+        <span>吉祥物 <b>小数点儿</b> · AI 生成 3D 模型，可拖动旋转</span>
+        <button type="button" class="btn ghost" id="mvToggle" style="padding:6px 12px;font-size:12.5px">停止自转</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 三个章节 ============ -->
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <span class="step-tag">LAB MODULES</span>
+        <h2 style="margin-top:10px">三台实验台</h2>
+        <div class="sub">按顺序来：小数乘法 → 小数除法 → 简易方程。每章五步，顶部进度条会跟着走。</div>
+      </div>
+    </div>
+    <div class="ch-grid" id="chGrid"></div>
+  </section>
+
+</main>
+
+<footer class="op-bar" id="labBar"></footer>
+
+<footer class="lab-foot">
+  <span>小数点实验室 · 配合人教版五年级上册</span>
+  <span>3D 由 Three.js 实时渲染</span>
+</footer>
+
+<dialog class="dialog" id="labSettingsDialog">
+  <form method="dialog">
+    <div class="in">
+      <h3>实验室设置</h3>
+      <label class="switch-row">
+        <span>减少动画<small>关闭 3D 场景里的缓动与旋转过渡</small></span>
+        <input type="checkbox" id="setReduceMotion">
+      </label>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end">
+        <button type="button" class="btn" id="setReset">重置全部进度</button>
+        <button value="close" class="btn primary">关闭</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script defer src="js/lab-core.js?v=15"></script>
+<!-- lib/model-viewer.min.js（930KB）改为页面空闲时再加载，见下方脚本 -->
+<script>
+/* defer 之后才执行：等 Lab 就绪 */
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  Lab.mountShell(null);
+
+  /* ---- 章节卡片 ---- */
+  var ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7"/></svg>';
+  var grid = document.getElementById("chGrid");
+  Lab.CHAPTERS.forEach(function (c) {
+    var p = Lab.progressOf(c.id);
+    var total = 4;
+    var got = Math.min(total, p.done);
+    var el = document.createElement("a");
+    el.className = "ch-card";
+    el.href = c.file;
+    el.setAttribute("data-tone", c.tone);
+    el.innerHTML =
+      '<span class="no">MODULE ' + c.num + "　" + (c.unit || "") + "</span>" +
+      '<span class="prog">' + got + " / " + total + " 步</span>" +
+      "<h3>" + c.name + "</h3>" +
+      "<p>" + c.desc + "</p>" +
+      '<span class="go">进入实验台 ' + ARROW + "</span>";
+    grid.appendChild(el);
+  });
+
+  /* ---- 吉祥物：先出封面图（24KB），页面空闲了再加载 3D 查看器（930KB） ----
+     首屏关键路径因此不背这 930KB，校园网/手机流量下也能秒开。 */
+  var slot = document.getElementById("mvSlot");
+  var mv = null, spinning = true;
+
+  slot.innerHTML = '<img class="mv-cover" src="assets/mascot-poster.jpg" ' +
+    'alt="小数点实验室吉祥物「小数点儿」：抱着小数点的实验室机器人">';
+
+  var toggle = document.getElementById("mvToggle");
+  if (toggle) toggle.addEventListener("click", function () {
+    spinning = !spinning;
+    if (mv) {
+      if (spinning) mv.setAttribute("auto-rotate", ""); else mv.removeAttribute("auto-rotate");
+    }
+    toggle.textContent = spinning ? "停止自转" : "开始自转";
+  });
+
+  function mountViewer() {
+    mv = document.createElement("model-viewer");
+    mv.setAttribute("src", "assets/mascot.glb");
+    // 不设 poster：那张封面图是纯黑底，会糊住整块卡片。
+    // 下面垫着的 .mv-cover 是同一张图（screen 混合、无黑底），过渡更自然。
+    mv.setAttribute("alt", "小数点实验室吉祥物：一个抱着小数点的实验室机器人");
+    mv.setAttribute("camera-controls", "");
+    if (spinning) mv.setAttribute("auto-rotate", "");
+    mv.setAttribute("auto-rotate-delay", "600");
+    mv.setAttribute("rotation-per-second", "22deg");
+    mv.setAttribute("shadow-intensity", "1.1");
+    mv.setAttribute("exposure", "1.05");
+    mv.setAttribute("touch-action", "pan-y");
+    mv.setAttribute("camera-orbit", "10deg 76deg 105%");
+    mv.setAttribute("environment-image", "neutral");
+    mv.style.setProperty("--poster-color", "transparent");
+    mv.style.position = "absolute";
+    mv.style.inset = "0";
+    mv.style.visibility = "hidden";
+
+    // 3D 就绪后再撤掉封面图：切换时不闪、也不会先黑一下
+    function reveal() {
+      var cover = slot.querySelector(".mv-cover");
+      if (cover) cover.remove();
+      mv.style.visibility = "";
+    }
+    mv.addEventListener("load", reveal);
+    setTimeout(reveal, 3500);          // 兜底：万一 load 事件没来
+
+    // 模型或 WebGL 出问题 → 保留封面图，不留空白
+    mv.addEventListener("error", function () {
+      if (mv.parentNode) mv.remove();
+      var tip = slot.querySelector(".mv-fallback");
+      if (!tip) {
+        tip = document.createElement("p");
+        tip.className = "mv-fallback";
+        tip.innerHTML = "本机未启用 WebGL，吉祥物只能看封面图。<br>三个章节里的 3D 实验台同样需要 WebGL。";
+        slot.appendChild(tip);
+      }
+    });
+
+    slot.appendChild(mv);
+  }
+
+  var viewerStarted = false;
+  function loadViewer() {
+    if (viewerStarted) return;
+    viewerStarted = true;
+    var s = document.createElement("script");
+    s.type = "module";
+    s.src = "lib/model-viewer.min.js";
+    s.onload = mountViewer;
+    s.onerror = function () { /* 加载不到就保留封面图 */ };
+    document.head.appendChild(s);
+  }
+  if (window.requestIdleCallback) window.requestIdleCallback(loadViewer, { timeout: 1800 });
+  else setTimeout(loadViewer, 1200);
+});
+</script>
+</body>
+</html>

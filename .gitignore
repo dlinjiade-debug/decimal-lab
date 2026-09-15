@@ -1,0 +1,11 @@
+# 无头浏览器验收的临时目录（截图 + user-data-dir，能吃掉几十 MB）
+.qa/
+
+# Python
+__pycache__/
+*.pyc
+
+# 系统文件
+Thumbs.db
+.DS_Store
+desktop.ini

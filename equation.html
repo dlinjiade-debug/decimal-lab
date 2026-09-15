@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#7c3aed">
+<meta name="description" content="简易方程 · 3D 天平实验台：等式的性质、解方程、检验">
+<title>模块 03 · 简易方程｜3D 天平</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/lab.css?v=15">
+</head>
+<body class="ch-equation">
+<header id="labTop"></header>
+
+<div class="board-shell">
+  <aside class="case-rail" id="labRail" aria-label="案例导航"></aside>
+
+  <main class="board-main">
+    <h1 class="sr-only">简易方程 · 3D 天平（人教版五年级上册 第 5 单元）</h1>
+    <!-- ================= 01 3D 实验台 ================= -->
+    <section id="s-lab" style="scroll-margin-top:96px">
+      <div class="stage-card">
+        <div class="stage-grid-bg"></div>
+        <div class="stage-top">
+          <span class="stage-title"><span class="badge3d">3D</span>天平实验台 · 两边一起动才不歪</span>
+          <span class="stage-hint">紫色方块是 <b style="color:#c4b5fd">x</b> · 金色方块是砝码</span>
+        </div>
+        <div class="stage-canvas-wrap">
+          <canvas class="stage-3d" id="balCanvas" role="img" aria-label="3D 天平：左盘放未知数 x 与砝码，右盘放砝码；两边做同样的操作天平才保持平衡" aria-describedby="balEq"></canvas>
+          <div class="stage-readout">
+            <div class="eq" id="balEq" aria-live="polite">x + 20 = 100</div>
+            <div class="frac" id="balHint">天平平衡 → 左边 = 右边</div>
+          </div>
+        </div>
+        <div class="stage-controls">
+          <button type="button" class="btn primary" id="balStep">两边同时减 20</button>
+          <button type="button" class="btn ghost" id="balWrong">❌ 只在左边减 20</button>
+          <button type="button" class="btn ghost" id="balReset">重来</button>
+        </div>
+        <div class="stage-picks" id="balScen"></div>
+      </div>
+
+      <div class="grid2">
+        <div class="note tone" style="margin:0">
+          <h4>📜 解题过程</h4>
+          <div id="balHistory" style="font-family:var(--font-num);font-size:18px;line-height:2.1;font-weight:700">
+            <div data-h0>—</div>
+          </div>
+        </div>
+        <div class="note key" style="margin:0">
+          <h4>🎯 这一步在干什么</h4>
+          <div class="lead" id="balNote">点上面的按钮，一次只走一步，看着天平说话。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 02 算理揭秘 ================= -->
+    <section id="s-why" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>方程 · 等式性质 · 解方程 · 检验</h2>
+        </div>
+
+        <div class="grid2">
+          <div class="note tone" style="margin:0">
+            <h4>① 什么是方程</h4>
+            <div class="lead"><b>方程 = 等式 + 含有未知数</b>，缺一不可。<br>✅ <code class="f">x + 6 = 20</code>　<code class="f">5x = 60</code>　<code class="f">x = 30</code><br>❌ <code class="f">30 + 40 = 70</code>（无未知数）　<code class="f">x − 14 &gt; 40</code>（不等式）</div>
+          </div>
+          <div class="note tone" style="margin:0">
+            <h4>② 等式的性质</h4>
+            <div class="lead">两边同时<b>加</b>或<b>减</b>同一个数，仍然相等。<br>两边同时<b>乘</b>同一个数，或<b>除以</b>同一个不为 0 的数，仍然相等。</div>
+          </div>
+        </div>
+
+        <div class="grid2" style="margin-top:12px">
+          <div class="note key" style="margin:0">
+            <h4>③ 解方程：把 x 单独请到一边</h4>
+            <div class="lead"><code class="f">x + 20 = 100</code> → 两边减 20 → <code class="f">x = 80</code><br><code class="f">3x = 60</code> → 两边除以 3 → <code class="f">x = 20</code><br>书写：每行开头写「解：」，<b>等号上下对齐</b>。</div>
+          </div>
+          <div class="note key" style="margin:0">
+            <h4>④ 检验：3 秒钟验一遍</h4>
+            <div class="lead">把 x 代回<b>原</b>方程看两边是否相等：<br><code class="f">x = 80 → 左边 80 + 20 = 100 = 右边 ✓</code></div>
+          </div>
+        </div>
+
+        <div class="note key" style="margin-top:12px">
+          <h4>🧩 列方程解应用题：五步</h4>
+          <div class="lead">
+            ① 设未知数 x → ② 找<b>等量关系</b> → ③ 列方程 → ④ 解 → ⑤ 检验并作答<br>
+            例：小明又买了 20 张卡片后一共有 100 张。<code class="f">x + 20 = 100 → x = 80</code><br>
+            关键在第 ② 步 —— 先找出「<b>谁和谁一样多</b>」，找不到等量关系就列不出方程。
+          </div>
+        </div>
+
+        <div class="cmp" style="margin-top:12px">
+          <div class="bad"><h5>❌ x − 6 = 10 两边同时减 6</h5><code class="f">x − 6 − 6 = x − 12</code></div>
+          <div class="good"><h5>✅ 两边同时加 6</h5><code class="f">x − 6 + 6 = x</code> → <b>x = 16</b></div>
+        </div>
+
+        <div class="cmp" style="margin-top:10px">
+          <div class="bad"><h5>❌ 把 3x 当成「3 加 x」</h5>于是两边减 3 —— 方向就错了</div>
+          <div class="good"><h5>✅ 3x 就是 3 × x</h5>两边同时除以 3 → <code class="f">x = 20</code></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= 03 · 3D 铅笔板书 ================= -->
+    <section id="s-teach" style="scroll-margin-top:96px">
+      <div class="stage-card">
+        <div class="stage-grid-bg"></div>
+        <div class="stage-top">
+          <span class="stage-title"><span class="badge3d">3D</span>铅笔板书 · 小助手一笔一划写给你看</span>
+          <span class="stage-hint">拖动换视角 · 双指或滚轮缩放</span>
+        </div>
+        <div class="stage-canvas-wrap">
+          <canvas class="stage-3d tall" id="writeCanvas" role="img" aria-label="3D 铅笔板书：小助手手持铅笔，把解方程的每一步写到黑板上，写到哪字幕就讲到哪" aria-describedby="wCaption"></canvas>
+          <div class="stage-caption"><div class="cap-in" id="wCaption">选下面一个题型，小助手马上开始写。</div></div>
+        </div>
+        <div class="stage-controls">
+          <button type="button" class="btn primary" id="wPlay">▶ 自动讲解</button>
+          <button type="button" class="btn ghost" id="wPrev">← 上一句</button>
+          <button type="button" class="btn ghost" id="wNext">下一句 →</button>
+          <button type="button" class="btn ghost" id="wReplay">重播本句</button>
+          <span class="wstep" id="wStepNo">第 1 / 1 步</span>
+          <label class="slider-row" style="margin-left:auto">写字速度 <b id="wSpeedLabel">1.0×</b>
+            <input type="range" id="wSpeed" min="40" max="220" step="10" value="100" aria-label="写字速度">
+          </label>
+        </div>
+        <div class="stage-picks" id="wDemoBtns"></div>
+      </div>
+
+      <div class="panel" id="wFallback" hidden></div>
+    </section>
+
+    <!-- ================= 04 亲手练 ================= -->
+    <section id="s-practice" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>下一步该怎么做？</h2>
+            <div class="sub">不用算出答案，只选出<b>正确的操作</b>。</div>
+          </div>
+        </div>
+        <div class="qbar">
+          <span class="pill">第 <b id="pIdx">1</b> / <b id="pTotal">10</b> 题</span>
+          <span class="pill">已答对 <b id="pScore">0</b> 题</span>
+        </div>
+        <div class="qtext" id="pQ">—</div>
+        <div class="opts" id="pOpts"></div>
+        <div class="fb" id="pFb" role="status" aria-live="polite"></div>
+        <button type="button" class="btn primary" id="pNext" style="display:none">下一题 →</button>
+      </div>
+    </section>
+
+    <!-- ================= 05 闯关 ================= -->
+    <section id="s-game" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>天平密码破译者</h2>
+            <div class="sub">14 关，答对 11 关解锁本章徽章。</div>
+          </div>
+        </div>
+        <div id="quizMount"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="clue-card" id="labClue" aria-label="当前线索"></aside>
+</div>
+
+<footer class="op-bar" id="labBar"></footer>
+
+<footer class="lab-foot">
+  <span>人教版五年级上册 · 第 5 单元 简易方程</span>
+  <a href="index.html">回到实验室首页</a>
+</footer>
+
+<dialog class="dialog" id="labSettingsDialog">
+  <form method="dialog">
+    <div class="in">
+      <h3>实验室设置</h3>
+      <label class="switch-row">
+        <span>减少动画<small>关闭 3D 场景里的缓动与旋转过渡</small></span>
+        <input type="checkbox" id="setReduceMotion">
+      </label>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end">
+        <button type="button" class="btn" id="setReset">重置全部进度</button>
+        <button value="close" class="btn primary">关闭</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script defer src="lib/three.min.js"></script>
+<script defer src="lib/OrbitControls.js"></script>
+<script defer src="lib/handwrite.js"></script>
+<script defer src="js/lab-core.js?v=15"></script>
+<script defer src="js/lab-3d.js?v=15"></script>
+<script defer src="js/lab-teach.js?v=15"></script>
+<script defer src="js/equation.js?v=15"></script>
+</body>
+</html>

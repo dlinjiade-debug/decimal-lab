@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<meta name="description" content="小数除法 · 3D 双轨同步搬运：为什么除数和被除数要同时移动小数点">
+<title>模块 02 · 小数除法｜3D 同步搬运轨道</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/lab.css?v=15">
+</head>
+<body class="ch-divide">
+<header id="labTop"></header>
+
+<div class="board-shell">
+  <aside class="case-rail" id="labRail" aria-label="案例导航"></aside>
+
+  <main class="board-main">
+    <h1 class="sr-only">小数除法 · 3D 同步搬运轨道（人教版五年级上册 第 3 单元）</h1>
+    <!-- ================= 01 3D 实验台 ================= -->
+    <section id="s-lab" style="scroll-margin-top:96px">
+      <div class="stage-card">
+        <div class="stage-grid-bg"></div>
+        <div class="stage-top">
+          <span class="stage-title"><span class="badge3d">3D</span>双轨同步搬运轨道 · 小数点搬几次？</span>
+          <span class="stage-hint">上面一格是<b style="color:#7dd3fc">被除数</b> · 下面一格是<b style="color:#fcd34d">除数</b></span>
+        </div>
+        <div class="stage-canvas-wrap">
+          <canvas class="stage-3d short" id="moverCanvas" role="img" aria-label="3D 搬运轨道：上面一排是被除数，下面一排是除数，点一次两边的小数点同时右移一位" aria-describedby="mvEq"></canvas>
+          <div class="stage-readout">
+            <div class="eq" id="mvEq" aria-live="polite">7.65 ÷ 0.85</div>
+            <div class="frac" id="mvFrac">除数是 0.85 —— 有 2 位小数，需要把小数点右移 2 位</div>
+          </div>
+        </div>
+        <div class="stage-controls">
+          <button type="button" class="btn primary" id="mvStep">▶ 两边同时右移 1 位</button>
+          <button type="button" class="btn ghost" id="mvAuto">自动搬完</button>
+          <button type="button" class="btn ghost" id="mvReset">重来</button>
+          <span style="color:#8fa4c8;font-size:12.5px" id="mvCount">已右移 0 位</span>
+        </div>
+        <div class="stage-picks" id="mvPresets"></div>
+      </div>
+    </section>
+
+    <!-- ================= 02 算理揭秘（精简版） ================= -->
+    <section id="s-why" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>除数是小数，为什么要「同时移动」</h2>
+        </div>
+
+        <div class="grid2">
+          <div class="note tone" style="margin:0">
+            <h4>① 商不变的性质</h4>
+            <div class="lead">被除数和除数<b>同时乘或除以同一个数（0 除外）</b>，商不变。<br><code class="f">7.65 ÷ 0.85 = 765 ÷ 85 = 9</code></div>
+          </div>
+          <div class="note tone" style="margin:0">
+            <h4>② 移几位，看「除数」</h4>
+            <div class="lead"><code class="f">5.98 ÷ 0.23 → 598 ÷ 23</code>（除数 2 位）<br><code class="f">1.44 ÷ 1.2　→ 14.4 ÷ 12</code>（除数 1 位）</div>
+          </div>
+        </div>
+
+        <div class="cmp" style="margin-top:12px">
+          <div class="bad"><h5>❌ 只把除数变成整数</h5><code class="f">12.6 ÷ 0.28 → 12.6 ÷ 28</code></div>
+          <div class="good"><h5>✅ 两个数同时右移 2 位</h5><code class="f">0.28 → 28　12.6 → 1260</code></div>
+        </div>
+
+        <div class="cmp" style="margin-top:10px">
+          <div class="bad"><h5>❌ 位数不够就不补 0</h5><code class="f">12.6 → 126</code></div>
+          <div class="good"><h5>✅ 末尾添 0 继续移</h5><code class="f">12.6 → 126.0 → 1260</code></div>
+        </div>
+
+        <div class="note key" style="margin-top:12px">
+          <h4>📏 除不尽、或不需要精确值：三种收尾</h4>
+          <div class="lead">
+            <b>① 求商的近似数</b>　除到比要保留的位数<b>多一位</b>，再四舍五入。<code class="f">7.2 ÷ 1.3 = 5.538… ≈ 5.5</code><br>
+            <b>② 循环小数</b>　商里有一个或几个数字<b>依次不断重复</b>，如 <code class="f">10 ÷ 3 = 3.333…</code><br>
+            <b>③ 进一法与去尾法</b>　装东西用<b>进一法</b>（不够装也得再要一个容器）；裁剪用<b>去尾法</b>（多出来的不够一份就舍去）
+          </div>
+        </div>
+
+        <div class="grid2" style="margin-top:12px">
+          <div class="note key" style="margin:0">
+            <h4>③ 除数本来就是整数</h4>
+            <div class="lead">不用搬，商的小数点和<b>被除数</b>对齐。<br><code class="f">22.4 ÷ 4 = 5.6</code></div>
+          </div>
+          <div class="note key" style="margin:0">
+            <h4>🔍 3 秒检查：商和被除数比大小</h4>
+            <div class="lead">除以比 1 大的数 → 商变小　<code class="f">3.6 ÷ 1.2 = 3</code><br>除以比 1 小的数 → 商变大　<code class="f">7.5 ÷ 0.25 = 30</code></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= 03 · 3D 铅笔板书 ================= -->
+    <section id="s-teach" style="scroll-margin-top:96px">
+      <div class="stage-card">
+        <div class="stage-grid-bg"></div>
+        <div class="stage-top">
+          <span class="stage-title"><span class="badge3d">3D</span>铅笔板书 · 小助手一笔一划写给你看</span>
+          <span class="stage-hint">拖动换视角 · 双指或滚轮缩放</span>
+        </div>
+        <div class="stage-canvas-wrap">
+          <canvas class="stage-3d tall" id="writeCanvas" role="img" aria-label="3D 铅笔板书：小助手手持铅笔，把竖式一笔一划写到黑板上，写到哪字幕就讲到哪" aria-describedby="wCaption"></canvas>
+          <div class="stage-caption"><div class="cap-in" id="wCaption">选下面一个例题，小助手马上开始写。</div></div>
+        </div>
+        <div class="stage-controls">
+          <button type="button" class="btn primary" id="wPlay">▶ 自动讲解</button>
+          <button type="button" class="btn ghost" id="wPrev">← 上一句</button>
+          <button type="button" class="btn ghost" id="wNext">下一句 →</button>
+          <button type="button" class="btn ghost" id="wReplay">重播本句</button>
+          <span class="wstep" id="wStepNo">第 1 / 1 步</span>
+          <label class="slider-row" style="margin-left:auto">写字速度 <b id="wSpeedLabel">1.0×</b>
+            <input type="range" id="wSpeed" min="40" max="220" step="10" value="100" aria-label="写字速度">
+          </label>
+        </div>
+        <div class="stage-picks" id="wDemoBtns"></div>
+      </div>
+
+      <div class="panel" id="wFallback" hidden></div>
+    </section>
+
+    <!-- ================= 04 亲手练 ================= -->
+    <section id="s-practice" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>把它转化成整数除法</h2>
+            <div class="sub">把原式变成正确的整数除法 —— 这一步对了，后面就不会跑偏。</div>
+          </div>
+        </div>
+        <div class="qbar">
+          <span class="pill">第 <b id="pIdx">1</b> / <b id="pTotal">10</b> 题</span>
+          <span class="pill">已答对 <b id="pScore">0</b> 题</span>
+        </div>
+        <div class="qtext" id="pQ">—</div>
+        <div class="opts" id="pOpts"></div>
+        <div class="fb" id="pFb" role="status" aria-live="polite"></div>
+        <button type="button" class="btn primary" id="pNext" style="display:none">下一题 →</button>
+      </div>
+    </section>
+
+    <!-- ================= 05 闯关 ================= -->
+    <section id="s-game" style="scroll-margin-top:96px">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>除法迷雾清扫队</h2>
+            <div class="sub">12 关，答对 9 关解锁本章徽章。</div>
+          </div>
+        </div>
+        <div id="quizMount"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="clue-card" id="labClue" aria-label="当前线索"></aside>
+</div>
+
+<footer class="op-bar" id="labBar"></footer>
+
+<footer class="lab-foot">
+  <span>人教版五年级上册 · 第 3 单元 小数除法</span>
+  <a href="equation.html">下一章：简易方程 →</a>
+</footer>
+
+<dialog class="dialog" id="labSettingsDialog">
+  <form method="dialog">
+    <div class="in">
+      <h3>实验室设置</h3>
+      <label class="switch-row">
+        <span>减少动画<small>关闭 3D 场景里的缓动与旋转过渡</small></span>
+        <input type="checkbox" id="setReduceMotion">
+      </label>
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:flex-end">
+        <button type="button" class="btn" id="setReset">重置全部进度</button>
+        <button value="close" class="btn primary">关闭</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script defer src="lib/three.min.js"></script>
+<script defer src="lib/OrbitControls.js"></script>
+<script defer src="lib/handwrite.js"></script>
+<script defer src="lib/vertical-calc.js"></script>
+<script defer src="js/lab-core.js?v=15"></script>
+<script defer src="js/lab-3d.js?v=15"></script>
+<script defer src="js/lab-teach.js?v=15"></script>
+<script defer src="js/divide.js?v=15"></script>
+</body>
+</html>
